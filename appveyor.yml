@@ -43,9 +43,10 @@ build_script:
   - md build
   - cd build
   - cmake --version
+  - echo cmake .. -G %generator%
   - cmake .. -G %generator%
 
-  - cmake --build
+  - cmake --build .
   - dir/s
 
 artifacts:
