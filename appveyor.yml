@@ -8,7 +8,7 @@ image:
   - Visual Studio 2017
 
 configuration:
-  - Release
+#  - Release
   - Debug
 
 platform:
@@ -40,14 +40,23 @@ build_script:
   - 7z x zlib*.gz
   - 7z x zlib*.tar
   - cd zlib-%version%
-  - md build
-  - cd build
   - cmake --version
-  - echo cmake .. -G %generator%
-  - cmake .. -G %generator%
 
-  - cmake --build .
-  - dir/s
+  - md Debug
+  - cd Debug
+  - echo cmake -DCMAKE_BUILD_TYPE=Debug .. -G %generator%
+  - cmake -DCMAKE_BUILD_TYPE=Debug .. -G %generator%
+  - cmake  --build .
+
+  - cd ..
+  - md Release
+  - cd Release
+  - echo cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
+  - cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
+  - cmake  --build .
+
+    #  - dir/s
+  - cd ..
   - dir/s *.exe *.lib
 
 #artifacts:
