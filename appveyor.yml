@@ -1,0 +1,53 @@
+version: '{build}'
+branches:
+  only:
+  - master
+clone_folder: c:\projects\zlib1
+image:
+  #- Visual Studio 2015
+  - Visual Studio 2017
+
+configuration:
+  - Release
+  - Debug
+
+platform:
+  - x64
+
+environment:
+  matrix:
+  - arch: Win64
+  # - arch: #does not work, Release|x64 not a valid target
+matrix:
+  fast_finish: true
+
+# skip unsupported combinations
+init:
+  - set version=1.2.11
+  - set arch=
+  - if "%arch%"=="Win64" ( set arch= Win64)
+  - echo %arch%
+  - echo %APPVEYOR_BUILD_WORKER_IMAGE%
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
+  - echo %generator%
+
+  - curl -k -O rem curl -k -O https://zlib.net/zlib-%version%.tar.gz
+  - 7z x zlib*.gz -so | 7z x -aoa -si -ttar
+  - cd zlib-%version%
+  - md build
+  - cd build
+  - cmake --version
+  - cmake .. -G %generator%
+
+build_script:
+  - cd
+  - cmake --build
+  - dir/s
+
+artifacts:
+  - path: '**\*.exe'
+  - path: '**\*.lib'
+
+
