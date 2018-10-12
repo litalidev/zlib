@@ -8,7 +8,7 @@ image:
   - Visual Studio 2017
 
 configuration:
-  #  - Release
+  - Release
   - Debug
 
 platform:
@@ -49,8 +49,8 @@ build_script:
   - cmake --build .
   - dir/s
 
-artifacts:
-  - path: '**\*.exe'
-  - path: '**\*.lib'
+#artifacts:
+#  - path: '**\*.exe'
+#  - path: '**\*.lib'
 
 
