@@ -2,7 +2,7 @@ version: '{build}'
 branches:
   only:
   - master
-clone_folder: c:\projects\zlib1
+clone_folder: c:\projects\zlib
 image:
   #- Visual Studio 2015
   - Visual Studio 2017
@@ -33,6 +33,9 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
   - echo %generator%
 
+
+build_script:
+  - cd
   - curl -k -O https://zlib.net/zlib-%version%.tar.gz
   - 7z x zlib*.gz
   - 7z x zlib*.tar
@@ -42,8 +45,6 @@ init:
   - cmake --version
   - cmake .. -G %generator%
 
-build_script:
-  - cd
   - cmake --build
   - dir/s
 
