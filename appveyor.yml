@@ -45,7 +45,7 @@ build_script:
 
   - md c:\projects\zlib\install
   - echo c:\projects\zlib\install
-  - cmd: SUBST "P:" c:\projects\zlib
+  - cmd: SUBST "P:" c:\projects\zlib\install
 
 
   - md build
@@ -56,17 +56,17 @@ build_script:
 
   #- echo cmake .. -G %generator%
   #- cmake .. -G %generator%
-  ##- echo cmake .. -G %generator%
-  ##- cmake -DCMAKE_INSTALL_PREFIX=p:\prj\libs\zlib .. -G %generator%
-  ##- cmake  --build . --config Release
-  ##- cmake  --build . --config Debug
-  ##- cmake --build . --config Release --target INSTALL
-  ##- cd ..
-  ##- dir/s *.exe *.lib *.pdb
+  - echo cmake .. -G %generator%
+  - cmake -DCMAKE_INSTALL_PREFIX=p:\prj\libs\zlib .. -G %generator%
+  - cmake  --build . --config Release
+  - cmake  --build . --config Debug
+  - cmake --build . --config Release --target INSTALL
+  - cd ..
+  - dir/s *.exe *.lib *.pdb
 
   - cd c:\projects\zlib
   - dir
-  - dir p:\
+  - dir p:\ /s
 
 #artifacts:
 #  - path: '**\*.exe'
