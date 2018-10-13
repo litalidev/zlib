@@ -2,7 +2,9 @@ version: '{build}'
 branches:
   only:
   - master
+
 clone_folder: c:\projects\zlib
+
 image:
   #- Visual Studio 2015
   - Visual Studio 2017
@@ -33,7 +35,7 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
   - echo %generator%
   - md %clone_folder%\install
-  - cmd /c subst p: %clone_folder%\install
+  - cmd /c "subst p: %clone_folder%\install"
 
 
 build_script:
