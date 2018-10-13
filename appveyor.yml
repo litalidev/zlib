@@ -36,7 +36,9 @@ init:
   - echo %generator%
   - md c:\projects\zlib\install
   - echo c:\projects\zlib\install
-  - cmd: SUBST P: c:\projects\zlib
+  - cmd: 
+    - SUBST P^: c:\projects\zlib
+    - SUBST P: c:\projects\zlib
 
 
 build_script:
