@@ -32,6 +32,8 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
   - echo %generator%
+  - md %clone_folder%\install
+  - subst p: %clone_folder%\install
 
 
 build_script:
@@ -42,22 +44,22 @@ build_script:
   - cd zlib-%version%
   - cmake --version
 
-  - md Debug
-  - cd Debug
-  - echo cmake -DCMAKE_BUILD_TYPE=Debug .. -G %generator%
-  - cmake -DCMAKE_BUILD_TYPE=Debug .. -G %generator%
-  - cmake  --build .
+  - md build
+  - cd build
+  #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
 
-  - cd ..
-  - md Release
-  - cd Release
-  - echo cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
-  - cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
-  - cmake  --build .
+  #- echo cmake .. -G %generator%
+  #- cmake .. -G %generator%
+  - echo cmake .. -G %generator%
+  - cmake -DCMAKE_INSTALL_PREFIX=p:prj\libs\zlib .. -G %generator%
+  - cmake  --build . --config Release
+  - cmake  --build . --config Debug
+  - cmake --build . --config Release --target INSTALL
+
 
     #  - dir/s
   - cd ..
-  - dir/s *.exe *.lib
+  - dir/s *.exe *.lib *.pdb
 
 #artifacts:
 #  - path: '**\*.exe'
