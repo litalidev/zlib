@@ -53,16 +53,15 @@ build_script:
 
   #- echo cmake .. -G %generator%
   #- cmake .. -G %generator%
-  - echo cmake .. -G %generator%
+  ##- echo cmake .. -G %generator%
   ##- cmake -DCMAKE_INSTALL_PREFIX=p:\prj\libs\zlib .. -G %generator%
   ##- cmake  --build . --config Release
   ##- cmake  --build . --config Debug
   ##- cmake --build . --config Release --target INSTALL
-
-
-  - cd ..
-  - dir/s
-  - dir/s *.exe *.lib *.pdb
+  ##- cd ..
+  ##- dir/s *.exe *.lib *.pdb
+  - cd %clone_folder%
+  - dir
 
 #artifacts:
 #  - path: '**\*.exe'
