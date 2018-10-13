@@ -35,7 +35,6 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
   - echo %generator%
   - md %clone_folder%\install
-  - cmd /c subst p: c:\projects\zlib\install
 
 
 build_script:
@@ -48,12 +47,14 @@ build_script:
 
   - md build
   - cd build
+  - subst p: c:\projects\zlib\install
+  - dir p:
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
 
   #- echo cmake .. -G %generator%
   #- cmake .. -G %generator%
   - echo cmake .. -G %generator%
-  - cmake -DCMAKE_INSTALL_PREFIX=p:prj\libs\zlib .. -G %generator%
+  - cmake -DCMAKE_INSTALL_PREFIX=p:\prj\libs\zlib .. -G %generator%
   - cmake  --build . --config Release
   - cmake  --build . --config Debug
   - cmake --build . --config Release --target INSTALL
