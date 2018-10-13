@@ -34,6 +34,9 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
   - echo %generator%
+  - md c:\projects\zlib\install
+  - echo c:\projects\zlib\install
+  - cmd: SUBST P: c:\projects\zlib
 
 
 build_script:
@@ -47,10 +50,6 @@ build_script:
   - md build
   - cd build
 
-  - md c:\projects\zlib\install
-  - echo c:\projects\zlib\install
-  - dir c:\Windows\system32\subst.exe
-  - cmd: SUBST P: c:\projects\zlib\install
   - dir p:
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
 
