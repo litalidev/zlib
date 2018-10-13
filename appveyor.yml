@@ -47,8 +47,8 @@ build_script:
   - md build
   - cd build
 
-  - md %clone_folder%\install
-  - echo %clone_folder%\install
+  - md c:\projects\zlib\install
+  - echo c:\projects\zlib\install
   - subst p: c:\projects\zlib\install
   - dir p:
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
@@ -62,8 +62,7 @@ build_script:
   ##- cmake --build . --config Release --target INSTALL
   ##- cd ..
   ##- dir/s *.exe *.lib *.pdb
-  - cd %clone_folder%
-  - dir
+
   - cd c:\projects\zlib
   - dir
 
