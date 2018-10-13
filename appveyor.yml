@@ -50,7 +50,7 @@ build_script:
   - md c:\projects\zlib\install
   - echo c:\projects\zlib\install
   - dir c:\Windows\system32\subst.exe
-  - c:\Windows\system32\subst.exe p: c:\projects\zlib\install
+  - cmd: SUBST P: c:\projects\zlib\install
   - dir p:
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
 
