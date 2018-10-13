@@ -65,6 +65,7 @@ build_script:
 
   - cd c:\projects\zlib
   - dir
+  - dir p:\
 
 #artifacts:
 #  - path: '**\*.exe'
