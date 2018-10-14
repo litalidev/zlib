@@ -63,16 +63,18 @@ build_script:
   ##- cd ..
   ##- dir/s *.exe *.lib *.pdb
 
-  - md build64
-  - cd build64
+  - cd
+  - md ..\build64
+  - cd ..\build64
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x64 mdd -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x64 md  -s include lib\zlibstatic.lib
 
-  - md build32
-  - cd build32
+  - cd
+  - md ..\build32
+  - cd ..\build32
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
