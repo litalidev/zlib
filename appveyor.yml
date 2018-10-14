@@ -68,8 +68,17 @@ build_script:
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x64 mdd -s include lib\zlibstaticd.lib
-  ##- cmake --build . --config Release --target INSTALL
-  ##- cmd: ..\..\cfiles.bat zlib %version% x64 md  -s include lib\zlibstatic.lib
+  - cmake --build . --config Release --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x64 md  -s include lib\zlibstatic.lib
+
+  - md build32
+  - cd build32
+  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
+  - cmake --build . --config Debug --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
+  - cmake --build . --config Release --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x86 md  -s include lib\zlibstatic.lib
+
 
   - set
   - cd c:\projects\zlib
@@ -77,6 +86,7 @@ build_script:
   - dir p:\ /s
   - cd /d p:\
   - 7z a zlib-%version%.zip prj\libs\zlib\%version%\include prj\libs\zlib\%version%\lib
+  - 7z l zlib-%version%.zip
 
 
 artifacts:
