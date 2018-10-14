@@ -76,7 +76,7 @@ build_script:
   - dir
   - dir p:\ /s
   - cd /d p:\
-  - 7z a zlib-%version%.zip prj\zlib\%version%\include prj\zlib\%version%\lib
+  - 7z a zlib-%version%.zip prj\libs\zlib\%version%\include prj\libs\zlib\%version%\lib
 
 
 artifacts:
