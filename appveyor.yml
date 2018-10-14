@@ -64,8 +64,8 @@ build_script:
   ##- dir/s *.exe *.lib *.pdb
 
   - cd
-  - md build64
-  - cd build64
+  - md build64md
+  - cd build64md
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x64 mdd -s include lib\zlibstaticd.lib
@@ -73,13 +73,32 @@ build_script:
   - cmd: ..\..\cfiles.bat zlib %version% x64 md  -s include lib\zlibstatic.lib
 
   - cd
-  - md ..\build32
-  - cd ..\build32
+  - md ..\build32md
+  - cd ..\build32md
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x86 md  -s include lib\zlibstatic.lib
+
+  - cd
+  - md ..\build64mt
+  - cd ..\build64mt
+  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator%
+  - cmake --build . --config Debug --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x64 mtd -s include lib\zlibstaticd.lib
+  - cmake --build . --config Release --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x64 mt  -s include lib\zlibstatic.lib
+
+  - cd
+  - md ..\build32mt
+  - cd ..\build32mt
+  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator%
+  - cmake --build . --config Debug --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mtd -s include lib\zlibstaticd.lib
+  - cmake --build . --config Release --target INSTALL
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mt  -s include lib\zlibstatic.lib
+
 
 
   - set
