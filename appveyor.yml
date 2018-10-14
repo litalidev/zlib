@@ -69,7 +69,7 @@ build_script:
   - cmake --build . --config Debug --target INSTALL
   - cd ..
   - cd 
-  - cmd: cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
+  - cmd: ..\cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
 
   - set
   - cd c:\projects\zlib
