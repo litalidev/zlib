@@ -31,9 +31,9 @@ init:
   - if "%arch%"=="Win64" ( set arch= Win64)
   - echo %arch%
   - echo %APPVEYOR_BUILD_WORKER_IMAGE%
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator64="Visual Studio 15 2017%arch%" & set generator="Visual Studio 15 2017")
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator64="Visual Studio 14 2015%arch%" & set generator="Visual Studio 14 2017")
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator64="Visual Studio 12 2013%arch%" & set generator="Visual Studio 12 2017")
   - echo %generator%
 
 build_script:
@@ -47,17 +47,14 @@ build_script:
   - md c:\projects\zlib\install
   - echo c:\projects\zlib\install
   - cmd: SUBST "P:" c:\projects\zlib\install
-
-
-  - md build
-  - cd build
-
   - dir p:
+
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
 
   #- echo cmake .. -G %generator%
   #- cmake .. -G %generator%
   ##- echo cmake .. -G %generator%
+  
   ##- cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
   ##- cmake  --build . --config Release
   ##- cmake  --build . --config Debug
@@ -65,6 +62,12 @@ build_script:
   ##- cmake --build . --config Release --target INSTALL
   ##- cd ..
   ##- dir/s *.exe *.lib *.pdb
+
+  - md build64
+  - cd build64
+  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
+  - cmake --build . --config Debug --target INSTALL
+  - cmd: cfiles zlib %version% x86 mdd -s include lib\zlibstaticd.lib
 
   - set
   - cd c:\projects\zlib
