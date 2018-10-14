@@ -26,6 +26,7 @@ matrix:
 # skip unsupported combinations
 init:
   - set version=1.2.11
+  - set ipath=p:\prj\libs\zlib\%version%
   - set arch=
   - if "%arch%"=="Win64" ( set arch= Win64)
   - echo %arch%
@@ -56,17 +57,20 @@ build_script:
 
   #- echo cmake .. -G %generator%
   #- cmake .. -G %generator%
-  - echo cmake .. -G %generator%
-  - cmake -DCMAKE_INSTALL_PREFIX=p:\prj\libs\zlib .. -G %generator%
-  - cmake  --build . --config Release
-  - cmake  --build . --config Debug
-  - cmake --build . --config Release --target INSTALL
-  - cd ..
-  - dir/s *.exe *.lib *.pdb
+  ##- echo cmake .. -G %generator%
+  ##- cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
+  ##- cmake  --build . --config Release
+  ##- cmake  --build . --config Debug
+  ##- cmake --build . --config Debug --target INSTALL
+  ##- cmake --build . --config Release --target INSTALL
+  ##- cd ..
+  ##- dir/s *.exe *.lib *.pdb
 
+  - set
   - cd c:\projects\zlib
   - dir
   - dir p:\ /s
+
 
 #artifacts:
 #  - path: '**\*.exe'
