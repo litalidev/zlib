@@ -3,7 +3,7 @@ branches:
   only:
   - master
 
-clone_folder: c:\projects\zlib
+#clone_folder: c:\projects\zlib
 
 image:
   #- Visual Studio 2015
@@ -26,7 +26,7 @@ matrix:
 # skip unsupported combinations
 init:
   - set version=1.2.11
-  - set ipath=p:\prj\libs\zlib\%version%
+  - set ipath=p:\prj\libs\%APPVEYOR_PROJECT_NAME%\%version%
   - set arch=
   - if "%arch%"=="Win64" ( set arch= Win64)
   - echo %arch%
@@ -41,12 +41,14 @@ build_script:
   - curl -k -O https://zlib.net/zlib-%version%.tar.gz
   - 7z x zlib*.gz
   - 7z x zlib*.tar
-  - cd zlib-%version%
+  #- cd zlib-%version%
   - cmake --version
 
-  - md c:\projects\zlib\install
-  - echo c:\projects\zlib\install
-  - cmd: SUBST "P:" c:\projects\zlib\install
+  #- md c:\projects\zlib\install
+  #- echo c:\projects\zlib\install
+  - md install
+  - cmd: SUBST "P:" install
+  - cmd: SUBST 
   - dir p:
 
   #- cmake -DCMAKE_BUILD_TYPE=Release .. -G %generator%
@@ -64,6 +66,7 @@ build_script:
   ##- dir/s *.exe *.lib *.pdb
 
   - cd
+  - cd zlib-%version%
   - md build64md
   - cd build64md
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
@@ -102,7 +105,7 @@ build_script:
 
 
   - set
-  - cd c:\projects\zlib
+  - cd %APPVEYOR_BUILD_FOLDER%
   - dir
   - dir p:\ /s
   - cd /d p:\
