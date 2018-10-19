@@ -35,11 +35,11 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator64="Visual Studio 14 2015%arch%" & set generator="Visual Studio 14 2015" & set tver=v140)
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator64="Visual Studio 12 2013%arch%" & set generator="Visual Studio 12 2013" & set tver=v120)
   - echo %generator%
-  - cmd: msc_ver.bat
-  - echo %_MSC_VER%
 
 build_script:
   - cd
+  - cmd: msc_ver.bat
+  - echo %_MSC_VER%
   - curl -k -O https://zlib.net/zlib-%version%.tar.gz
   - 7z x zlib*.gz
   - 7z x zlib*.tar
