@@ -31,10 +31,12 @@ init:
   - if "%arch%"=="Win64" ( set arch= Win64)
   - echo %arch%
   - echo %APPVEYOR_BUILD_WORKER_IMAGE%
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator64="Visual Studio 15 2017%arch%" & set generator="Visual Studio 15 2017")
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator64="Visual Studio 14 2015%arch%" & set generator="Visual Studio 14 2017")
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator64="Visual Studio 12 2013%arch%" & set generator="Visual Studio 12 2017")
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator64="Visual Studio 15 2017%arch%" & set generator="Visual Studio 15 2017" & set tver=v141)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator64="Visual Studio 14 2015%arch%" & set generator="Visual Studio 14 2015" & set tver=v140)
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator64="Visual Studio 12 2013%arch%" & set generator="Visual Studio 12 2013" & set tver=v120)
   - echo %generator%
+  - cmd: msc_ver.bat
+  - echo %_MSC_VER%
 
 build_script:
   - cd
@@ -71,36 +73,36 @@ build_script:
   - cd build64md
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator64%
   - cmake --build . --config Debug --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x64 mdd -s include lib\zlibstaticd.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x64 mdd %tver% %_MSC_VER% -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x64 md  -s include lib\zlibstatic.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x64 md  %tver% %_MSC_VER% -s include lib\zlibstatic.lib
 
   - cd
   - md ..\build32md
   - cd ..\build32md
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp .. -G %generator%
   - cmake --build . --config Debug --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x86 mdd -s include lib\zlibstaticd.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mdd %tver% %_MSC_VER% -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x86 md  -s include lib\zlibstatic.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x86 md  %tver% %_MSC_VER% -s include lib\zlibstatic.lib
 
   - cd
   - md ..\build64mt
   - cd ..\build64mt
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator%
   - cmake --build . --config Debug --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x64 mtd -s include lib\zlibstaticd.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x64 mtd %tver% %_MSC_VER% -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x64 mt  -s include lib\zlibstatic.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x64 mt  %tver% %_MSC_VER% -s include lib\zlibstatic.lib
 
   - cd
   - md ..\build32mt
   - cd ..\build32mt
   - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator%
   - cmake --build . --config Debug --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x86 mtd -s include lib\zlibstaticd.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mtd %tver% %_MSC_VER% -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
-  - cmd: ..\..\cfiles.bat zlib %version% x86 mt  -s include lib\zlibstatic.lib
+  - cmd: ..\..\cfiles.bat zlib %version% x86 mt  %tver% %_MSC_VER% -s include lib\zlibstatic.lib
 
 
 
