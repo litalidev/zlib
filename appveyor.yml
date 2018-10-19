@@ -38,7 +38,7 @@ init:
 
 build_script:
   - cd
-  - cmd: msc_ver.bat
+  - cmd: msc_ver.bat --show_details
   - echo %_MSC_VER%
   - curl -k -O https://zlib.net/zlib-%version%.tar.gz
   - 7z x zlib*.gz

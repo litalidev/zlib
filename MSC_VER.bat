@@ -3,6 +3,8 @@ setlocal
 rem
 rem msc_ver.bat: A tool to display and set _MSC_VER
 rem
+rem usage: msc_ver [--show_details]
+rem
 rem returns:
 rem   0 = successful
 rem   1 = vswhere.exe not found
@@ -34,15 +36,32 @@ rem OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN TH
 rem SOFTWARE.
 rem
 rem 
+rem
+
+set show_details=0
+set have_cl=0
+
+if "%1" == "--show_details" set show_details=1
 
 cl > nul 2>&1
-if not errorlevel 1 goto havecl
+if not errorlevel 1 set have_cl=1
 
+if %show_details% EQU 1 goto show_details
+if %have_cl% NEQ 1 goto show_details
+goto have_cl
+
+
+:show_details
 if not ["%ProgramFiles(x86)%"] == [""] (
   set cmdstr="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 ) else set cmdstr="%ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe"
 
 if not exist %cmdstr% echo ERROR: [%cmdstr%] not found&exit/b 1
+
+if %show_details% EQU 1 %cmdstr%
+
+if %have_cl% EQU 1 goto have_cl
+
 
 for /f "tokens=1,2 delims=:" %%a in ('%cmdstr% -property installationPath') do set ipath=%%a:%%b
 
@@ -52,7 +71,7 @@ if not exist %cmdstr% echo ERROR: [%cmdstr%] not found&exit/b 2
 
 call %cmdstr% > nul 2>&1
 
-:havecl
+:have_cl
 for /f "delims=" %%a in ('cl /? 2^>^&1 ^| findstr "Version"' ) do set str=%%a
 if ["%str%"] == [""]  echo ERROR: [cl.exe] not found or have error&exit/b 3
 set str=%str:Version =$%
