@@ -89,7 +89,7 @@ build_script:
   - cd
   - md ..\build64mt
   - cd ..\build64mt
-  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator%
+  - cmake -DCMAKE_INSTALL_PREFIX=%ipath%\tmp -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /Ob2 /DNDEBUG" .. -G %generator64%
   - cmake --build . --config Debug --target INSTALL
   - cmd: ..\..\cfiles.bat zlib %version% x64 mtd %tver% %_MSC_VER% -s include lib\zlibstaticd.lib
   - cmake --build . --config Release --target INSTALL
